@@ -5,15 +5,16 @@ const artApp = {};
 artApp.apiKey = 'DLnkZoO3';
 artApp.apiUrl = 'https://www.rijksmuseum.nl/api/en/collection';
 
+
 // make a namespaced api call
-artApp.getArt = function() {
+artApp.getArt = function(usersChosenAnimal) {
     // imgonly: true, returns only things for which an img is available
     const url = new URL(artApp.apiUrl)
     url.search = new URLSearchParams({
         key: this.apiKey,
         imgonly: true,
         ps: 20,
-        q: 'monkey'
+        q: usersChosenAnimal
     });
 
     fetch(url).then(function(apiRes) {
@@ -75,7 +76,7 @@ artApp.displayArt = function(artArray) {
 // make and init method
 artApp.init = function() {
     // call method to get art data
-    artApp.getArt();
+    artApp.getArt('goose');
 };
 
 // call the init(at end of code)
