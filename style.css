@@ -52,3 +52,7 @@ main ul {
   margin: 10px 15px;
   width: calc(50% - 30px);
 }
+
+.selected-animal {
+  text-transform: capitalize;
+}

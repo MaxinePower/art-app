@@ -20,23 +20,20 @@ artApp.getArt = function(usersChosenAnimal) {
     fetch(url).then(function(apiRes) {
         return apiRes.json();
     }).then(function(jsonRes) {
-        console.log(jsonRes.artObjects);
         artApp.displayArt(jsonRes.artObjects);
     });
 };
 
 // create method that takes api data and displays onto page
 artApp.displayArt = function(artArray) {
+    const artworkUl = document.getElementById('artwork');
+    artworkUl.innerHTML = '';
     artArray.forEach(function(artwork) {
-        // console.log(artwork);
-
         // save data in variables
         const artworkTitle = artwork.title;
         const artworkImgSrc = artwork.webImage.url;
         const altText = artwork.longTitle;
         const artist = artwork.principalOrFirstMaker;
-
-        // console.log(artworkTitle, artworkImgSrc, altText, artist);
 
         // create elements, add necessary classes/data, appendChild)
 
@@ -67,16 +64,38 @@ artApp.displayArt = function(artArray) {
         artworkLi.append(heading, artworkImg, artworkP)
 
         // appending the li to ul
-        const artworkUl = document.getElementById('artwork');
+        
         artworkUl.appendChild(artworkLi);
-        console.log(artworkLi);
+    });
+}
+
+// create a method to change the header to fit the selected animal
+artApp.updateH1 = function(selectedAnimal) {
+    document.querySelector('.selected-animal').textContent = selectedAnimal;
+};
+
+
+// creating a method that sets up our event listener
+artApp.eventListenerSetup = function() {
+    // 1st event listener 
+    // when user selects an animal use that as query in the api call
+    const selectEl = document.getElementById('animalOptions');
+    selectEl.addEventListener('change', function(e) {
+        // call method to get art data
+        // artApp.getArt(e.explicitOriginalTarget.value);
+        // OR
+        artApp.updateH1(this.value);
+        artApp.getArt(this.value);
     });
 }
 
 // make and init method
 artApp.init = function() {
-    // call method to get art data
-    artApp.getArt('goose');
+    // call event listener method
+    artApp.eventListenerSetup();
+
+    // calling the get art method so we start by seeing art on the page
+    artApp.getArt('bear');
 };
 
 // call the init(at end of code)
